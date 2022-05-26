@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "queue": "cpp"
+    },
+    "cmake.configureOnOpen": false,
+    "python.analysis.extraPaths": ["./install/village_interfaces/lib/python3.8/site-packages"]
+}
