@@ -5,7 +5,7 @@
 #include "village_interfaces/srv/sell_novel.hpp"
 #include "village_interfaces/msg/novel.hpp"
 #include <queue>
-
+#include <opencv2/opencv.hpp>
 #include <memory>
 using std::placeholders::_1;
 using std::placeholders::_2;
@@ -55,6 +55,29 @@ private:
     // 声明一个服务端
     rclcpp::Service<village_interfaces::srv::SellNovel>::SharedPtr server_;
 
+    void process_image(const sensor_msgs::msg::Image::SharedPtr msg, bool show_image)
+    {
+        RCLCPP_INFO(this->get_logger(), "Received image #%s", msg->header.frame_id.c_str());
+        std::cerr << "Received image #" << msg->header.frame_id.c_str() << std::endl;
+
+        if (show_image) {
+        // Convert to an OpenCV matrix by assigning the data.
+        cv::Mat frame(
+            msg->height, msg->width, CV_8UC3,
+            const_cast<unsigned char *>(msg->data.data()), msg->step);
+
+        if (msg->encoding == "rgb8") {
+            cv::cvtColor(frame, frame, cv::COLOR_RGB2BGR);
+        }
+
+        cv::Mat cvframe = frame;
+
+        // Show the image in a window called "showimage".
+        cv::imshow("showimage", cvframe);
+        // Draw the screen and wait for 1 millisecond.
+        cv::waitKey(1);
+        }
+    }
     // 收到话题数据的回调函数
     void topic_callback(const village_interfaces::msg::Novel::SharedPtr msg)
     {
@@ -66,11 +89,10 @@ private:
         pub_->publish(money);
         RCLCPP_INFO(this->get_logger(), "王二：我收到了：'%s',插图长：%d,宽：%d ，并给了李四：%d 元的稿费", msg->content.c_str(),msg->image.height,msg->image.width, money.data);
         
-        # 用opencv显示图像
-
-        # 为msg->image创建智能指针
-        std::make_shared<>
-
+        //用opencv显示图像
+        //为msg->image创建智能指针
+        auto msg_img_ptr = std::make_shared<sensor_msgs::msg::Image>(msg->image);
+        process_image(msg_img_ptr,true);
 
         //将小说放入novels_queue中
         novels_queue.push(msg);
