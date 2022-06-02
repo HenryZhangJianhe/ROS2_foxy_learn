@@ -83,3 +83,4 @@ self.timer.timer_period_ns = timer_period * (1000*1000*1000)
 查看主题发布速度
 ros2 topic hz /sexy_girl
 
+# git pull test
