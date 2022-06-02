@@ -91,8 +91,8 @@ private:
         
         //用opencv显示图像
         //为msg->image创建智能指针
-        auto msg_img_ptr = std::make_shared<sensor_msgs::msg::Image>(msg->image);
-        process_image(msg_img_ptr,true);
+        // auto msg_img_ptr = std::make_shared<sensor_msgs::msg::Image>(msg->image);
+        process_image(std::make_shared<sensor_msgs::msg::Image>(msg->image),true);
 
         //将小说放入novels_queue中
         novels_queue.push(msg);

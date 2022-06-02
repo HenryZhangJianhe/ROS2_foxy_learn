@@ -71,7 +71,7 @@ set_parameters	设置一组参数的值
 ```python
 
 # 声明参数,参数名字，默认值
-self.declare_parameter("write_timer_period",5
+self.declare_parameter("write_timer_period",5)
 
 timer的回调函数里
 # 回调之后更新回调周期
@@ -82,3 +82,4 @@ self.timer.timer_period_ns = timer_period * (1000*1000*1000)
 ```
 查看主题发布速度
 ros2 topic hz /sexy_girl
+
